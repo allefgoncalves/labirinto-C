@@ -9,9 +9,9 @@ int main(){
 
     scanf("%d %d",&N ,&M); //definindo o tamanho da matriz N x M
     
-    char** headquarters = (char**)malloc(N *sizeof(char)); //criando a matriz  
+    char** headquarters = (char**)malloc(N* sizeof(char*)); //criando a matriz  
     for(int i=0; i<N; i++){
-        headquarters[i] = (char*)malloc(M *sizeof(char));
+        headquarters[i] = (char*)malloc(M* sizeof(char));
     }
     
     getchar();// limpando buffer 
@@ -31,26 +31,26 @@ int main(){
         root[i] = NULL; 
     }
 
-    for(int i=0; i<N; i++){
+    /*for(int i=0; i<N; i++){
         for(int j=0; j<M; j++){
             int aux = i*M + j; //posição do elemento atual no array
-            if(j+1 < M && headquarters[i][j+1] == "."){ //verificando lado direito do elemento atual
+            if(j+1 < M && headquarters[i][j+1] == '.'){ //verificando lado direito do elemento atual
                 root[aux] = insert_List(root[aux], aux+1); 
             }
 
-            if(i+1 < N && headquarters[i+1][j] == "."){//verificando a baixo do elemento atual
+            if(i+1 < N && headquarters[i+1][j] == '.'){//verificando a baixo do elemento atual
                 root[aux] = insert_List(root[aux], aux+M); 
             }
 
-            if(j-1 >= 0 && headquarters[i][j-1] == "."){//verificando lado esquerdo do elemento atual
-                root[aux] = insert_List(root[aux], aux+1); 
+            if(j-1 >= 0 && headquarters[i][j-1] == '.'){//verificando lado esquerdo do elemento atual
+                root[aux] = insert_List(root[aux], aux-1); 
             }
 
-            if(i+1 >= 0 && headquarters[i-1][j] == "."){//verificando a cima do elemento atual
-                root[aux] = insert_List(root[aux], aux+1); 
+            if(i+1 >= 0 && headquarters[i-1][j] == '.'){//verificando a cima do elemento atual
+                root[aux] = insert_List(root[aux], aux-M); 
             }
         }
-    }
+    }*/
 
     printf("\n a matriz: \n\n");
 
