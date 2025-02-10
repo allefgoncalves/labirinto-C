@@ -22,54 +22,71 @@ ListNode *insert_List(ListNode *root, int number){//inserção na lista
     current->prox = create_node(number);
     return root;
 }
- /*
-TrieNode *search_trie(TrieNode *root, const char *name) { //busca de um nome expecifico
-    TrieNode *current = root;
-    for (int i = 0; name[i] != '\0'; i++) {
-        int index = name[i] - 'a';
-        if (!current->children[index]) {
-            return NULL; // Palavra não encontrada
-        }
-        current = current->children[index];
-    }
-    if(current != NULL && current->end)
-        return current;
-    return NULL;
-}
 
-//varredura e exibição das mensagens, no intervalo A-B, de todos os usuarios cadastrados
-void *messages_from_all_users(TrieNode *root, long long int a, long long int b, const char *name, int *Qtd){
-    TrieNode *current = root;
-
-    char current_name[ASCII_SIZE] = ""; //criando array de char vazio 
-    if(name){
-        strcpy(current_name, name); //copiando a palavra
+bool search(int *list, int size, int number){
+    if(list == NULL || size == 0) {
+        return false;
     }
 
-    if(current->end){ //verifica se é um nodo final
-        inorder_avl(current->root_avl, a, b, current_name, Qtd);
-    }
-
-    int index = 0;  //buscando o fim do array
-    while (current_name[index] !='\0'){
-        index ++;
-    }
-
-    for (int i = 0; i < ASCII_SIZE; i++) { //chama novamente a função para cada filho existente
-       if(current->children[i] != NULL){
-            current_name[index] =  i + 'a';
-            current_name[index + 1] = '\0'; //define uum novo tamanho para a verificação dos filhos        
-            messages_from_all_users(current->children[i], a, b, current_name, Qtd);
-       }
-    }
-}
-
-void free_trie(TrieNode *root){
-    for (int i = 0; i < ASCII_SIZE; i++){
-        if(root->children[i] != NULL){
-            free_trie(root->children[i]);
+    for(int i=0; i<size; i++){
+        if(list[i] == number){
+            return true;
         }
     }
-    free_avl(root->root_avl);
-    free(root);
-}*/
+
+    return false;
+}
+
+void DFS_AUX(
+    ListNode **root, 
+    int current, 
+    int target, 
+    bool *visited, 
+    int *path, 
+    int *index, 
+    bool *found){
+
+    if(*found){
+        return;
+    } 
+        
+    visited[current] = true;
+    path[(*index)++] = current;
+
+    if(current == target){  
+        *found = true;
+        return;
+    }
+
+    ListNode *neighbor = root[current];
+    while(neighbor != NULL && !(*found)){
+        if(!visited[neighbor->value]){
+            DFS_AUX(root, neighbor->value, target, visited, path, index, found);
+        }
+        neighbor = neighbor->prox;
+    }
+
+    if(!(*found)){
+        (*index)--;
+    }  
+}
+
+int* DFS(ListNode **root, int start, int target, int size, int *pathSize){
+    bool *visited = (bool*)calloc(size, sizeof(bool)); 
+    int *path = (int*)malloc(size * sizeof(int)); 
+    int index = 0;
+    bool found = false; 
+
+    DFS_AUX(root, start, target, visited, path, &index, &found);
+    free(visited);
+
+    if(!found){
+        printf(" voce esta preso!. \n");
+        free(path);
+        *pathSize = 0;
+        return NULL;
+    }
+
+    *pathSize = index;
+    return path;
+}

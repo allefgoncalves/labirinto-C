@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 typedef struct ListNode{
     struct ListNode *prox;
@@ -12,9 +13,16 @@ typedef struct ListNode{
 
 ListNode *create_node(int number);//cria um nó
 ListNode *insert_List(ListNode *root, int number);  //inserir um nó 
-//ListNode *search_List(ListNode *root, const char *name); //busca de usuario
-//void *messages_from_all_users(ListNode *root, long long int a, long long int b, const char *name, int *Qtd); //exibe as mensagens de todos os usuarios em um intervalo A-B
-//void free_List(ListNode *root);                     //libera o espaço de memoria
-
+int* DFS(ListNode **root, int start, int target, int size, int *pathSize);
+bool search(int *list, int size, int number);
+void DFS_AUX(
+    ListNode **root, 
+    int current, 
+    int target, 
+    bool *visited, 
+    int *path, 
+    int *index, 
+    bool *found
+);
 
 #endif
