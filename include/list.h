@@ -24,5 +24,6 @@ void DFS_AUX(
     int *index, 
     bool *found
 );
+void BFS(ListNode **root, int start, int size, int *parent);// não é uma lista é uma fila!
 
 #endif

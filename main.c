@@ -86,6 +86,30 @@ int main(){
     int pathSize;
     int *path = DFS(root, 0, size - 1, size, &pathSize);
 
+    int *parent = (int*)malloc(size * sizeof(int));
+    BFS(root, 0, size, parent);
+
+    if(path == NULL){
+        printf("voce esta preso!. \n");
+    }else{
+        for(int i=0; i<N; i++){
+            for(int j=0; j<M; j++){
+                if(search(path,size, matrix_number[i][j])){
+                    printf("x ");
+                }else{
+                    printf("%c ", matrix[i][j]);
+                }
+            }
+            printf("\n");
+        }
+        printf("%d passo(s)\n",pathSize-1);
+        pathSize = 0;
+
+        for(int i = 0; i<size; i++){ //exibindo o vetor de pais
+            printf("%d ", parent[i]);
+        }
+    }
+
     /*
     if(path != NULL){ // exibição do array com o caminho
         printf("\nDFS Path: ");
@@ -95,21 +119,6 @@ int main(){
         printf("\n");
     }
     */
-    
-    for(int i=0; i<N; i++){ //insere o caminho na matriz
-        for(int j=0; j<M; j++){
-            if(search(path,size, matrix_number[i][j])){
-                matrix[i][j] = 'x';
-            }
-        }
-    }
-
-    for(int i=0; i<N; i++){ //exibição da matriz
-        for(int z=0; z<M; z++){
-            printf("%c ", matrix[i][z]);
-        }
-        printf("\n");
-    }
 
     for(int i=0; i<N; i++){ //liberando as matrizes
         free(matrix[i]);

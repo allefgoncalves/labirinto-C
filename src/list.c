@@ -81,12 +81,44 @@ int* DFS(ListNode **root, int start, int target, int size, int *pathSize){
     free(visited);
 
     if(!found){
-        printf(" voce esta preso!. \n");
         free(path);
-        *pathSize = 0;
         return NULL;
     }
 
     *pathSize = index;
     return path;
+}
+
+void BFS(ListNode **root, int start, int size, int *parent){
+    bool *visited = (bool*)malloc(size *sizeof(bool));
+    for(int i=0; i<size; i++){
+        visited[i] = false;
+        parent[i] = -1;
+    }
+
+    visited[start] = true;
+    parent[start] = -1;
+
+    int *queue = (int*)malloc(size *sizeof(int));// criando a fila
+    int front = 0; 
+    int rear = 0;
+    queue[rear++] = start;
+
+    while (front<rear){
+        int current = queue[front++];
+        
+        ListNode *currentNode = root[current];
+        while (currentNode != NULL){
+            int neighbor = currentNode->value;
+            if(!visited[neighbor]){
+                visited[neighbor] = true;
+                parent[neighbor] = current;
+                queue[rear++] = neighbor;
+            }
+            currentNode = currentNode->prox;
+        }
+    }
+    
+    free(visited);
+    free(queue);
 }
